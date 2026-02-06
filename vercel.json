@@ -8,9 +8,16 @@
   ],
   "rewrites": [
     {
+      "source": "/nbs-legal-chatbot/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/nbs-legal-chatbot/manifest.json",
+      "destination": "/manifest.json"
+    },
+    {
       "source": "/nbs-legal-chatbot/(.*)",
       "destination": "/index.html"
     }
   ]
 }
-
