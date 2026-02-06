@@ -5,7 +5,7 @@
       "destination": "/$1"
     },
     {
-      "source": "/nbs-legal-chatbot",
+      "source": "/nbs-legal-chatbot/",
       "destination": "/index.html"
     }
   ]
