@@ -17,37 +17,46 @@ import axios from "axios";
 
 //BYPASS: Return mock login data for testing without real backend call
 export const loginUser = async (credentials) => {
-	console.log("Bypassing actual login request...");
-	return {
-		data: {
-			userName: credentials.userName,
-			role: "User",
-			isProfileCompleted: true,
-		},
-	};
+  console.log(
+    "Bypassing actual login request with credentials:",
+    credentials.userName,
+  );
+  return {
+    data: {
+      username: credentials.userName,
+      userName: credentials.userName,
+      userId: credentials.userName,
+      role: "User",
+      isProfileCompleted: true,
+      accessToken: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIke2NyZWRlbnRpYWxzLnVzZXJOYW1lfSIsIm5hbWUiOiIke2NyZWRlbnRpYWxzLnVzZXJOYW1lfSIsImlhdCI6MTUxNjIzOTAyMn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`,
+    },
+  };
 };
 
 export const handleLoginResponse = (
   loginData,
   credentials,
   navigate,
-  onLogin
+  onLogin,
 ) => {
   const userData = loginData.data || loginData;
   let userName = userData.username || userData.Username;
   const role = userData.role || userData.Role;
-  const isProfileCompleted = userData.isProfileCompleted ?? userData.IsProfileCompleted;
+  const isProfileCompleted =
+    userData.isProfileCompleted ?? userData.IsProfileCompleted;
   const accessToken = userData.accessToken || userData.AccessToken;
 
   if (accessToken) {
     sessionStorage.setItem("accessToken", accessToken);
-    
+
     // Extract username from JWT if not in response
     if (!userName) {
       try {
-        const token = accessToken.replace('Bearer ', '');
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        userName = payload.sub || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        const token = accessToken.replace("Bearer ", "");
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        userName =
+          payload.sub ||
+          payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
       } catch (e) {
         userName = sessionStorage.getItem("userName");
       }
@@ -63,7 +72,8 @@ export const handleLoginResponse = (
     sessionStorage.setItem("userName", finalUserName);
     sessionStorage.setItem("userId", userData.userId || finalUserName);
 
-    const profileCompleted = isProfileCompleted !== false && isProfileCompleted !== undefined;
+    const profileCompleted =
+      isProfileCompleted !== false && isProfileCompleted !== undefined;
     const userObject = {
       userName: finalUserName,
       userId: userData.userId || credentials?.userName || finalUserName,
@@ -77,7 +87,7 @@ export const handleLoginResponse = (
     sessionStorage.setItem("isProfileCompleted", profileCompleted.toString());
 
     onLogin(userObject);
-    
+
     if (profileCompleted || isProfileCompleted === undefined) {
       navigate("/chat");
     } else {
@@ -94,13 +104,17 @@ export const refreshAccessToken = async () => {
   const REFRESH_URL = `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`;
 
   try {
-    const { data } = await axios.post(REFRESH_URL, {}, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-        accept: "*/*",
+    const { data } = await axios.post(
+      REFRESH_URL,
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          accept: "*/*",
+        },
       },
-    });
+    );
 
     if (data.data?.accessToken) {
       sessionStorage.setItem("accessToken", data.data.accessToken);
@@ -126,19 +140,22 @@ export const revokeRefreshToken = async () => {
   try {
     const accessToken = sessionStorage.getItem("accessToken");
 
-    await axios.post(REVOKE_URL, {}, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken || "",
-        accept: "*/*",
+    await axios.post(
+      REVOKE_URL,
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: accessToken || "",
+          accept: "*/*",
+        },
       },
-    });
+    );
   } catch (error) {
     console.error("Token revoke error:", error);
   }
 };
-
 
 export const logout = async (navigate) => {
   // TODO: Uncomment once backend revoke endpoint is fixed
@@ -152,7 +169,7 @@ export const logout = async (navigate) => {
   // } catch (err) {
   //   console.error("Logout error:", err);
   // }
-  
+
   localStorage.clear();
   sessionStorage.clear();
   sessionStorage.setItem("skipAutoLogin", "true");
