@@ -1,0 +1,25 @@
+{
+  "name": "Ask Your Lawyer",
+  "short_name": "LawyerBot",
+  "start_url": "/nbs-legal-chatbot/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2A2B7D",
+  "description": "Legal assistance chatbot",
+  "scope": "/nbs-legal-chatbot/",
+  "icons": [
+    {
+      "src": "/nbs-legal-chatbot/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/nbs-legal-chatbot/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "prefer_related_applications": false
+}
