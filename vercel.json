@@ -12,8 +12,16 @@
       "destination": "/assets/$1"
     },
     {
+      "source": "/nbs-legal-chatbot/service-worker.js",
+      "destination": "/service-worker.js"
+    },
+    {
       "source": "/nbs-legal-chatbot/manifest.json",
       "destination": "/manifest.json"
+    },
+    {
+      "source": "/nbs-legal-chatbot/(.*)\\.(js|css|png|svg|ico|json|webmanifest)",
+      "destination": "/$1"
     },
     {
       "source": "/nbs-legal-chatbot/(.*)",
