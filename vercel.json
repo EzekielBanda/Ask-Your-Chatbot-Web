@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/nbs-legal-chatbot/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/nbs-legal-chatbot",
+      "destination": "/index.html"
+    }
+  ]
+}
