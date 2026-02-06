@@ -1,12 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/nbs-legal-chatbot/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/nbs-legal-chatbot/(.*)",
-      "destination": "/$1"
-    },
-    {
-      "source": "/nbs-legal-chatbot/",
       "destination": "/index.html"
     }
   ]
 }
+
